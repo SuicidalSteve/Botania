@@ -63,6 +63,7 @@ public class RenderTileTinyPotato extends TileEntityRenderer<TileTinyPotato> {
 	private static final ResourceLocation textureGenderfluid = new ResourceLocation(LibResources.MODEL_TINY_POTATO_GENDERFLUID);
 	private static final ResourceLocation textureAce = new ResourceLocation(LibResources.MODEL_TINY_POTATO_ACE);
 	private static final ResourceLocation textureAro = new ResourceLocation(LibResources.MODEL_TINY_POTATO_ARO);
+	private static final ResourceLocation textureBotania = new ResourceLocation(LibResources.MODEL_TINY_POTATO_BOTANIA);
 	private final ModelRenderer potatoModel = new ModelRenderer(16, 16, 0, 0);
 
 	public RenderTileTinyPotato(TileEntityRendererDispatcher manager) {
@@ -150,6 +151,13 @@ public class RenderTileTinyPotato extends TileEntityRenderer<TileTinyPotato> {
 		case ":tataro:":
 			base = RenderType.getEntitySolid(textureAro);
 			break;
+		case ":botaniatater:":
+		case ":botater:":
+		case ":bosniantater:":
+		case ":botaniaherzegovina:":
+		case ":botania-herzegovina:":
+			base = RenderType.getEntitySolid(textureBotania);
+			break;
 		default:
 			if (ClientProxy.dootDoot) {
 				base = RenderType.getEntitySolid(textureHalloween);
@@ -157,6 +165,19 @@ public class RenderTileTinyPotato extends TileEntityRenderer<TileTinyPotato> {
 				base = RenderType.getEntitySolid(texture);
 			}
 		}
+//		if ("kyle hyde".equals(name)) {
+//			base = RenderType.getEntitySolid(textureGrayscale);
+//		} else if (":transtater:".equals(name)) {
+//			base = RenderType.getEntitySolid(textureTrans);
+//		} else if (":wiretater:".equals(name)) {
+//			base = RenderType.getEntitySolid(textureWire);
+//		} else if (":pridetater:".equals(name)) {
+//			base = RenderType.getEntitySolid(texturePride);
+//		} else if (ClientProxy.dootDoot) {
+//			base = RenderType.getEntitySolid(textureHalloween);
+//		} else {
+//			base = RenderType.getEntitySolid(texture);
+//		}
 		return shader == null || !ShaderHelper.useShaders() ? base : new ShaderWrappedRenderLayer(shader, null, base);
 
 	}
@@ -199,6 +220,12 @@ public class RenderTileTinyPotato extends TileEntityRenderer<TileTinyPotato> {
 
 		float up = (float) -Math.abs(Math.sin(jump / 10 * Math.PI)) * 0.2F;
 		float rotZ = (float) Math.sin(jump / 10 * Math.PI) * 2;
+		if (name.equals(":rotater:")) {
+			up = .0F;
+			rotZ = .0f;
+			float rotaterZ = (float) Math.sin(jump / 40 * Math.PI) * 360;
+			ms.rotate(Vector3f.YP.rotationDegrees(rotaterZ));
+		}
 
 		ms.translate(0F, up, 0F);
 		ms.rotate(Vector3f.ZP.rotationDegrees(rotZ));
@@ -211,6 +238,16 @@ public class RenderTileTinyPotato extends TileEntityRenderer<TileTinyPotato> {
 		case "pahimar":
 			ms.scale(1F, 0.3F, 1F);
 			ms.translate(0F, 3.5F, 0F);
+			break;
+		case ":thicctater:":
+			ms.scale(4F, 1F, 1F);
+			break;
+		case ":smooth_tater_slab:":
+		case ":double_smooth_tater_slab:":
+			//ms.scale(4F, 1.325F, 4F);
+			ms.scale(4F, (1F / 6F * 8F), 4F);
+			//ms.translate(0F, -0.36875, 0F);
+			ms.translate(0F, -0.375, 0F);
 			break;
 		case "dinnerbone":
 		case "grumm":
@@ -227,10 +264,23 @@ public class RenderTileTinyPotato extends TileEntityRenderer<TileTinyPotato> {
 		if (render) {
 			potatoModel.render(ms, buffer, light, overlay, r, g, b, 1);
 		}
-		if (name.equals("kingdaddydmac")) {
+		switch (name) {
+		case "kingdaddydmac":
 			ms.translate(0.5F, 0F, 0F);
 			potatoModel.render(ms, buffer, light, overlay, r, g, b, 1);
+			break;
+		case ":snorpstater:":
+			ms.scale(0.75F, 0.75F, 0.75F);
+			ms.translate(0.3F, 0.5F, 0.1F);
+			potatoModel.render(ms, buffer, light, overlay, r, g, b, 1);
+			ms.translate(-0.6F, 0.0F, 0F);
+			potatoModel.render(ms, buffer, light, overlay, r, g, b, 1);
+			break;
+		case ":double_smooth_tater_slab:":
+			ms.translate(0.0F, -0.375F, 0.0F);
+			potatoModel.render(ms, buffer, light, overlay, r, g, b, 1);
 		}
+
 		ms.pop();
 
 		renderItems(potato, potatoFacing, name, partialTicks, ms, buffers, light, overlay);
